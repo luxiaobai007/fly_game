@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>微信小游戏 - 飞行棋</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    #gameCanvas {
+      display: block;
+      background-color: #87CEEB;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="640" height="1000"></canvas>
+
+  <!-- 加载游戏脚本 -->
+  <script src="js/propSystem.js"></script>
+  <script src="js/network.js"></script>
+  <script src="js/gameLogic.js"></script>
+  <script src="game.js"></script>
+  
+  <script>
+    // 初始化游戏
+    window.onload = function() {
+      // 模拟微信小游戏环境
+      if (typeof wx === 'undefined') {
+        window.wx = {
+          getSharedCanvas: function() {
+            return document.getElementById('gameCanvas');
+          },
+          createCanvas: function() {
+            return document.getElementById('gameCanvas');
+          },
+          onShow: function(callback) {
+            // 模拟微信 onShow 事件
+            callback();
+          },
+          onHide: function(callback) {
+            // 模拟微信 onHide 事件
+          },
+          connectSocket: function(options) {
+            // 模拟WebSocket连接
+            console.log('模拟连接到服务器:', options.url);
+            return {
+              onOpen: function(callback) { callback(); },
+              onMessage: function(callback) { },
+              onError: function(callback) { },
+              onClose: function(callback) { },
+              send: function(data) { console.log('发送数据:', data); }
+            };
+          }
+        };
+      }
+      
+      // 初始化游戏
+      initGame();
+    };
+  </script>
+</body>
+</html>
