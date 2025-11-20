@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>测试飞行棋游戏</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+    
+    #gameContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    #gameCanvas {
+      display: block;
+      background-color: #87CEEB;
+      border: 2px solid #333;
+    }
+    
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <h1>飞行棋游戏测试</h1>
+    <canvas id="gameCanvas" width="640" height="1000"></canvas>
+    <div class="controls">
+      <button onclick="initGame()">初始化游戏</button>
+      <button onclick="console.log('PropSystem存在:', typeof window.PropSystem !== 'undefined')">检查PropSystem</button>
+      <button onclick="console.log('NetworkManager存在:', typeof window.NetworkManager !== 'undefined')">检查NetworkManager</button>
+    </div>
+    <p>打开开发者工具查看控制台输出</p>
+  </div>
+
+  <!-- 加载游戏脚本 -->
+  <script src="game/js/propSystem.js"></script>
+  <script src="game/js/network.js"></script>
+  <script src="game/js/gameLogic.js"></script>
+  <script src="game/js/mockServer.js"></script>
+  <script src="game/game.js"></script>
+  
+  <script>
+    // 模拟微信小游戏环境
+    if (typeof wx === 'undefined') {
+      window.wx = {
+        getSharedCanvas: function() {
+          return document.getElementById('gameCanvas');
+        },
+        createCanvas: function() {
+          return document.getElementById('gameCanvas');
+        },
+        onShow: function(callback) {
+          // 模拟微信 onShow 事件
+          callback();
+        },
+        onHide: function(callback) {
+          // 模拟微信 onHide 事件
+        },
+        connectSocket: function(options) {
+          // 模拟WebSocket连接
+          console.log('模拟连接到服务器:', options.url);
+          return {
+            onOpen: function(callback) { callback(); },
+            onMessage: function(callback) { },
+            onError: function(callback) { },
+            onClose: function(callback) { },
+            send: function(data) { console.log('发送数据:', data); }
+          };
+        }
+      };
+    }
+    
+    // 全局初始化函数
+    function initGame() {
+      if (typeof window.initGame !== 'undefined') {
+        window.initGame();
+      } else {
+        console.error('initGame function is not available');
+      }
+    }
+  </script>
+</body>
+</html>
