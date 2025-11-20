@@ -32,24 +32,48 @@ function initGame() {
   ctx = canvas.getContext('2d');
   gameBoard = new GameBoard();
   
-  // 初始化道具系统
-  if (typeof PropSystem !== 'undefined') {
-    propSystem = new PropSystem();
-  } else if (typeof window.PropSystem !== 'undefined') {
+  // 初始化道具系统 - 确保PropSystem类已定义
+  if (typeof window.PropSystem !== 'undefined') {
     propSystem = new window.PropSystem();
+  } else if (typeof PropSystem !== 'undefined') {
+    propSystem = new PropSystem();
   } else {
     console.error('PropSystem is not available');
-    return;
+    // 如果道具系统不可用，创建一个空的替代实现
+    propSystem = {
+      initPlayerProps: function(playerId) {},
+      addRandomProp: function(playerId) {},
+      useProp: function(playerId, propId, target) { return false; },
+      applyEffect: function(effect, playerId, target) { return false; },
+      hasEffect: function(playerId, effectType) { return false; },
+      updateEffects: function() {},
+      getPlayerProps: function(playerId) { return []; },
+      renderPropInterface: function(canvas, ctx, playerId) {},
+      findPlayerById: function(playerId) { return null; }
+    };
+    console.warn('使用空的道具系统替代实现');
   }
   
   // 初始化网络管理器
-  if (typeof NetworkManager !== 'undefined') {
-    networkManager = new NetworkManager();
-  } else if (typeof window.NetworkManager !== 'undefined') {
+  if (typeof window.NetworkManager !== 'undefined') {
     networkManager = new window.NetworkManager();
+  } else if (typeof NetworkManager !== 'undefined') {
+    networkManager = new NetworkManager();
   } else {
     console.error('NetworkManager is not available');
-    return;
+    // 如果网络管理器不可用，创建一个空的替代实现
+    networkManager = {
+      connect: function(serverUrl, gameId, playerId) { return Promise.resolve(); },
+      sendJoinGame: function(gameId, playerId) {},
+      sendMessage: function(message) {},
+      handleMessage: function(message) {},
+      setOnMessageCallback: function(callback) {},
+      sendRollDice: function(playerId, diceValue) {},
+      sendMovePiece: function(playerId, pieceIndex, fromPos, toPos) {},
+      sendUseProp: function(playerId, propId, targetPlayerId) {},
+      disconnect: function() {}
+    };
+    console.warn('使用空的网络管理器替代实现');
   }
   
   // 初始化玩家

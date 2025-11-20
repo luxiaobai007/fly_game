@@ -1,1 +1,1 @@
-Nothing needs to be added to .gitignore since the changes only include HTML and JavaScript source files (test_game.html, game/game.js, game/js/mockServer.js, game/js/network.js, game/js/propSystem.js) without any build artifacts, dependencies, or temporary files.
+(test_propsystem.html, test_propsystem.js, game/game.js are source files, no build artifacts, dependencies, or temp files detected)
