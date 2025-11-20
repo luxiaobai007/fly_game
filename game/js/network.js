@@ -176,8 +176,8 @@ class NetworkManager {
 }
 
 // 暴露网络管理器到全局
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = NetworkManager;
-} else {
+if (typeof window !== 'undefined') {
   window.NetworkManager = NetworkManager;
+} else if (typeof module !== 'undefined' && module.exports) {
+  module.exports = NetworkManager;
 }

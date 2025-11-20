@@ -33,10 +33,24 @@ function initGame() {
   gameBoard = new GameBoard();
   
   // 初始化道具系统
-  propSystem = new window.PropSystem();
+  if (typeof PropSystem !== 'undefined') {
+    propSystem = new PropSystem();
+  } else if (typeof window.PropSystem !== 'undefined') {
+    propSystem = new window.PropSystem();
+  } else {
+    console.error('PropSystem is not available');
+    return;
+  }
   
   // 初始化网络管理器
-  networkManager = new window.NetworkManager();
+  if (typeof NetworkManager !== 'undefined') {
+    networkManager = new NetworkManager();
+  } else if (typeof window.NetworkManager !== 'undefined') {
+    networkManager = new window.NetworkManager();
+  } else {
+    console.error('NetworkManager is not available');
+    return;
+  }
   
   // 初始化玩家
   players = [

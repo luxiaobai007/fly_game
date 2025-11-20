@@ -230,8 +230,8 @@ class PropSystem {
 }
 
 // 暴露道具系统到全局
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = PropSystem;
-} else {
+if (typeof window !== 'undefined') {
   window.PropSystem = PropSystem;
+} else if (typeof module !== 'undefined' && module.exports) {
+  module.exports = PropSystem;
 }

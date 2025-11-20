@@ -228,8 +228,8 @@ class MockGameServer {
 const mockServer = new MockGameServer();
 
 // 导出服务器实例
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = mockServer;
-} else {
+if (typeof window !== 'undefined') {
   window.mockServer = mockServer;
+} else if (typeof module !== 'undefined' && module.exports) {
+  module.exports = mockServer;
 }
